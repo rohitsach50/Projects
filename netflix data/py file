@@ -1,0 +1,89 @@
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("netflix_titles.csv")
+
+
+"""
+
+print(df.shape)                     # rows X columns
+print(df.head())                    # first five rows
+print(df.tail())                    # last five rows
+print(df.isnull())                  # shows empty cell as True and False for non empty cell
+print(df.isnull().sum())            # total empty cells as per columns
+print(netflix_series.count())       # .count() is used to count the total number of rows without NaN valurs across all columns.
+print(netflix_series.type.count())  # counts total number of 'type' in netflix_series datafrme
+
+"""
+
+df = df.drop(columns=["show_id", "description"])
+netflix_movies = df.loc[df['type'] == 'Movie']         # locates rows where the column labeled as 'type' has 'Movies' in it.
+netflix_series = df.loc[df['type'] == 'TV Show']       # locates rows where the column labeled as 'type' has 'TV Show' in it.
+
+"""
+plt.pie(
+        [netflix_movies.type.count(), netflix_series.type.count()],
+        labels=['Movies', 'TV Shows'],
+        textprops={'color':"Blue"},
+        autopct='%.2f'
+)
+
+plt.title('Movies Vs TV shows in %', color="Blue")
+
+plt.show()
+
+print(netflix_movies.value_counts('country'))   #counts how many times a particular string or integer appears in a dataframe's column('country')
+
+"""
+
+
+movie_rating = netflix_movies.value_counts('rating')\
+    .reset_index("rating")\
+    .sort_values(by=[0], ascending=False)\
+    .rename(columns={0:"sum of movies"})              # THIS MAKES DATAFRAME
+
+#       (OR)
+
+# movie_rating = netflix_movies.groupby("rating").size()     # "THIS MAKES SERIES"
+
+# TO CONVERT SERIES TO DATAFRAME DO THIS:-
+# movie_rating =movie_rating.to_frame(name="ANY NAME FOR HEADING")
+
+
+
+
+# movie_rating.plot(kind='bar')
+# plt.xticks(rotation=45)
+# plt.show()
+tv_show_rating = netflix_series.groupby("rating")\
+    .size()\
+    .reset_index("rating")\
+    .sort_values(by=[0],ascending=False)\
+    .rename(columns={0:"sum of tv shows"})
+                                           # .reset_index("any column name") resets index of dataframe
+# print(tv_show_rating)
+
+# TO REMOVE NaN FROM CAST COLUMN
+
+noNaNValues_df = df.dropna(subset=['cast'])
+
+movieCast = noNaNValues_df.loc[noNaNValues_df['type'] == 'Movie']
+tvCast = noNaNValues_df.loc[noNaNValues_df['type'] == 'TV Show']
+
+movieCast = movieCast.set_index('type').cast.str.split(', ', expand=True).stack().reset_index('type').rename(columns={0:"Actor"})
+tvCast = tvCast.set_index('type').cast.str.split(', ', expand=True).stack().reset_index('type').rename(columns={0:"Actor"})
+# TO SWAP COLUMNS WITH EACH OTHER DO THIS:-
+movieCast = movieCast.sort_values('Actor')[['Actor', 'type']]
+
+# COUNTING MOVIES DONE BY EACH ACTOR
+
+movieCast = movieCast.groupby("Actor").size().reset_index('Actor').sort_values(by=[0],ascending=False).rename(columns={0:"Total Movies"})
+moviePerActor = movieCast.reset_index(drop=True)
+# print(moviePerActor)
+
+tvCast = tvCast.groupby("Actor").size().reset_index('Actor').sort_values(by=[0],ascending=False).rename(columns={0:"Total Shows"})
+showPerActor = tvCast.reset_index(drop=True)
+# print(showPerActor)
+# below printing actors per movie
+# print(moviePerActor.groupby("Total Movies").size().reset_index(name="Actor").sort_values("Actor", ascending=False))
