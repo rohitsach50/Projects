@@ -1,0 +1,3 @@
+15 */1 * * * cd /home/ssm-user/dex/ && /usr/bin/python3.8 data_extracting.py
+20 */1 * * * cd /home/ssm-user/dex/ && aws s3 cp /home/ssm-user/dex/ s3://mars007/Mars/ --recursive --exclude "*.py"
+25 */1 * * * cd /home/ssm-user/dex/ && rm -f 20*.csv
