@@ -3,9 +3,19 @@ import glob
 import os
 import numpy as np
 import mysql.connector as sqlcon
+from geopy.geocoders import ArcGIS
+from geopy.geocoders import Bing
+from datetime import datetime
+
+
+n=ArcGIS()
+nom=Bing(api_key="AiCa2yYZihcaJZZOjc-O2p8PjoTvdkkGVk8fscrgkhyYgN7KMn0btM907NW8B9Rs")
+
 
 # conn = mysql.connector.connect(user = '', password = '', host = '', port = '3306')
 mydb = sqlcon.connect(user = 'root', password = '', host = 'localhost', port = '3306')
+now=datetime.now()
+dt_string = now.strftime("%Y/%m/%d %H:%M:%S")
 
 
 dir = "/Users/Rock/Desktop/data/"
@@ -17,13 +27,13 @@ print(file_paths)
 
 def file_to_df(path):
     df = pd.read_csv(path, index_col=0)
-    df.drop(columns=['pollutant_min','pollutant_max'],inplace=True)
-    df['last_update'] = pd.to_datetime(df['last_update'])
+    df.drop(columns=['pollutant_min','pollutant_max','last_update'],inplace=True)
+    
     city_df = df[['city','station','state','country']]
     by_city = city_df.groupby(['city','station','state'])
     
     country = df['country'].unique()[0]
-    Date = df['last_update'].unique()[0]
+    Date = dt_string
     
     
     df2 = by_city['country'].unique()
