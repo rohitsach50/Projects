@@ -9,7 +9,7 @@ from datetime import datetime
 
 
 n=ArcGIS()
-nom=Bing(api_key="AiCa2yYZihcaJZZOjc-O2p8PjoTvdkkGVk8fscrgkhyYgN7KMn0btM907NW8B9Rs")
+nom=Bing(api_key="{BING_KEY}")
 
 
 # conn = mysql.connector.connect(user = '', password = '', host = '', port = '3306')
