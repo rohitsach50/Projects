@@ -3,8 +3,7 @@ import os
 import requests
 
 
-# url = 'https://api.data.gov.in/resource/3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69?format=csv&limit=all&api-key=579b464db66ec23bdd000001cdc3b564546246a772a26393094f5645'
-url = 'https://api.data.gov.in/resource/3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69?api-key=579b464db66ec23bdd000001cdc3b564546246a772a26393094f5645&format=csv&offset=0&limit=all'
+url = 'https://api.data.gov.in/resource/3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69?api-key={API_KEY}&format=csv&offset=0&limit=all'
 myfile = requests.get(url)
 
 open('dex.csv', 'wb').write(myfile.content)
