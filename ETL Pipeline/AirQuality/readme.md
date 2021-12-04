@@ -4,4 +4,4 @@
 
 ### CSV_TO_MYSQL.py file extract data from csv file and transforms it before loading it to mysql database on AWS RDS service.
 
-### cron is used for scheduling tasks of running data_extracting.py file at minute 1 past every 4th hour and then uploading the csv file to aws s3.
+### cron is used for scheduling tasks of running data_extracting.py file at minute 1 past every hour and then uploading the csv file to aws s3.
