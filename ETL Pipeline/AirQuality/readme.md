@@ -1,4 +1,4 @@
-### 3SQL file contains schema of mysql database 
+### SQL file contains schema of mysql database 
 
 ### data_extracting.py file downloads csv file related to air quality from data.gov.in and renames the csv file to datetime of file creation.
 
